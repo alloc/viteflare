@@ -1,0 +1,35 @@
+{
+  "name": "viteflare",
+  "version": "0.0.0",
+  "description": "Cloudflare workers bundled by Vite",
+  "author": "Alec Larson",
+  "license": "MIT",
+  "repository": "alloc/viteflare",
+  "main": "dist/viteflare.js",
+  "module": "dist/viteflare.mjs",
+  "types": "dist/viteflare.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "prepare": "yarn build",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@alloc/prettier-config": "^1.0.0",
+    "esbuild": "^0.8.36",
+    "prettier": "^2.0.5",
+    "rollup": "^2.38.1",
+    "rollup-plugin-dts": "^2.0.1",
+    "rollup-plugin-esbuild": "^2.6.1",
+    "typescript": "^4.0.0",
+    "vite": "^2.7.2",
+    "vitest": "link:vendor/vitest/packages/vitest"
+  },
+  "peerDependencies": {
+    "vite": ">=2.7"
+  },
+  "prettier": "@alloc/prettier-config"
+}

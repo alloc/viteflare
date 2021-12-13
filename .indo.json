@@ -1,0 +1,8 @@
+{
+  "repos": {
+    "vendor/vitest": {
+      "url": "https://github.com/antfu-sponsors/vitest.git",
+      "head": "main"
+    }
+  }
+}

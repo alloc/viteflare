@@ -1,6 +1,6 @@
 import * as esbuild from 'esbuild'
 import EventEmitter from 'events'
-import { readJsonSync, watch, writeFile } from 'fs-extra'
+import { mkdir, readJsonSync, watch, writeFile } from 'fs-extra'
 import kleur from 'kleur'
 import { clear, warn } from 'misty'
 import path from 'path'
@@ -110,6 +110,7 @@ export async function createBundle(
     }
 
     const bundlePath = path.join(root, cacheDir, 'bundle.js')
+    await mkdir(path.dirname(bundlePath), { recursive: true })
     await writeFile(bundlePath, code)
     log(
       `Saved to ${kleur.cyan(

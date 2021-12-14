@@ -43,7 +43,7 @@
     "node-fetch": "^3.1.0",
     "prettier": "^2.0.5",
     "rollup": "^2.38.1",
-    "rollup-plugin-esbuild": "^2.6.1",
+    "rollup-plugin-esbuild": "^4.7.2",
     "typescript": "^4.0.0",
     "vite": "^2.7.2",
     "vitest": "link:vendor/vitest/packages/vitest",

@@ -25,10 +25,12 @@
     "fs-extra": "^10.0.0",
     "http-proxy": "^1.18.1",
     "misty": "^1.4.0",
+    "node-abort-controller": "^3.0.1",
     "open": "^8.4.0",
     "source-map-support": "^0.5.21",
     "terser": "^5.10.0",
     "tmp-promise": "^3.0.3",
+    "web-streams-polyfill": "^3.2.0",
     "ws": "^8.3.0"
   },
   "devDependencies": {

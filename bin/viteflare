@@ -6,4 +6,8 @@ process.on('uncaughtException', err => {
   process.exit(1)
 })
 
+if (!global.AbortController) {
+  Object.assign(global, require('node-abort-controller'))
+}
+
 require('../dist/cli').main(process.argv)

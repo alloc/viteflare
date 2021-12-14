@@ -1,3 +1,4 @@
+import Module from 'module'
 import esbuild from 'rollup-plugin-esbuild'
 import resolve from '@rollup/plugin-node-resolve'
 
@@ -10,12 +11,14 @@ const bundle = config => ({
 })
 
 const cliExternal = [
+  ...Module.builtinModules,
   '@iarna/toml',
   'esbuild',
   'formdata-node',
   'fs-extra',
   'http-proxy',
   'misty',
+  'node-abort-controller',
   'open',
   'prompts',
   'source-map',
@@ -28,9 +31,10 @@ const cliExternal = [
 export default [
   bundle({
     input: 'src/cli.ts',
-    external: id => cliExternal.includes(id) || id.startsWith('node:'),
+    external: id => cliExternal.includes(id),
     plugins: [
-      esbuild(),
+      node14Compat(),
+      esbuild({ sourceMap: true }),
       resolve({
         extensions: ['.ts', '.tsx'],
       }),
@@ -43,7 +47,7 @@ export default [
     },
   }),
   bundle({
-    plugins: [esbuild()],
+    plugins: [esbuild({ sourceMap: true })],
     output: {
       file: `${name}.js`,
       format: 'esm',
@@ -51,3 +55,14 @@ export default [
     },
   }),
 ]
+
+// StackBlitz uses Node14
+function node14Compat() {
+  return {
+    resolveId(id) {
+      if (id.startsWith('node:')) {
+        return id.slice(5)
+      }
+    },
+  }
+}

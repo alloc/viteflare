@@ -18,6 +18,7 @@ export async function getPreviewToken(bundle: string, config: Config) {
         content: bundle,
       },
       modules: [],
+      variables: config.vars,
     },
     {
       accountId: config.account_id,

@@ -5,6 +5,7 @@ importers:
   .:
     specifiers:
       '@alloc/prettier-config': ^1.0.0
+      '@cloudflare/workers-types': ^3.2.0
       '@iarna/toml': ^2.2.5
       '@peculiar/webcrypto': ^1.2.3
       '@rollup/plugin-node-resolve': ^13.1.1
@@ -35,6 +36,7 @@ importers:
       wrangler: link:vendor/wrangler2/packages/wrangler
       ws: ^8.3.0
     dependencies:
+      '@cloudflare/workers-types': 3.2.0
       '@iarna/toml': 2.2.5
       '@peculiar/webcrypto': 1.2.3
       esbuild: 0.13.12
@@ -88,6 +90,10 @@ packages:
   /@alloc/prettier-config/1.0.0:
     resolution: {integrity: sha512-xm50V1qxSdTh1O1fKA+gqcU605YSnxfq6HwtYSFU3fRsKMFnUSuSOxqSAPI7y2sRxqPed2EIuGmNn107LVQM6g==}
     dev: true
+
+  /@cloudflare/workers-types/3.2.0:
+    resolution: {integrity: sha512-y0+f7QeB5/fMMdU0wSwvBB18yE9kAD2s7Wben8a4uI4f/EJyE+eJrai5QO52Pq8EmWP0vRpKqZh0qU857WhY2A==}
+    dev: false
 
   /@iarna/toml/2.2.5:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}

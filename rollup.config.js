@@ -5,7 +5,6 @@ import resolve from '@rollup/plugin-node-resolve'
 const name = require('./package.json').main.replace(/\.js$/, '')
 
 const bundle = config => ({
-  input: 'src/index.ts',
   external: id => !/^[./]/.test(id),
   ...config,
 })
@@ -48,6 +47,7 @@ export default [
     },
   }),
   bundle({
+    input: 'src/worker/index.ts',
     plugins: [esbuild({ sourceMap: true })],
     output: {
       file: `${name}.js`,

@@ -7,7 +7,8 @@ export function useHotKeys(onKeyPress: (key: string) => void) {
   stdin.setEncoding('utf8')
   stdin.once('data', (data: any) => {
     if (data == '\x03') {
-      process.kill(process.pid, 'SIGINT')
+      console.log('^C')
+      process.exit()
     } else {
       onKeyPress(data)
     }

@@ -75,6 +75,14 @@ importers:
       uid: 2.0.0
       viteflare: link:../..
 
+  template:
+    specifiers:
+      vite: ^2.7.2
+      viteflare: ^0.0.4
+    devDependencies:
+      vite: 2.7.2
+      viteflare: link:..
+
 packages:
 
   /@alloc/prettier-config/1.0.0:

@@ -8,7 +8,17 @@
 
 This does **NOT** run Vite within your worker. Along with freeing your Cloudflare workers from being either contained in one file or bundled with Webpack, it allows your workers to be transformed using Vite plugins before they're deployed.
 
-### Get Started
+### Quick Start
+
+Clone [`alloc/vite-template`](https://github.com/alloc/viteflare-template).
+
+Use `degit` for a blazing fast setup locally:
+
+```sh
+npx degit https://github.com/alloc/viteflare-template my-worker
+```
+
+### Manual Setup
 
 ```sh
 pnpm install viteflare vite -D

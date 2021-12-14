@@ -94,18 +94,16 @@ export async function createBundle(
 
     let code = built.outputFiles[0].text
 
-    if (isProduction) {
-      if (minify) {
-        const minified = await terser.minify(code, {
-          module: true,
-          mangle: false,
-          keep_fnames: true,
-          keep_classnames: true,
-          sourceMap: { url: 'inline' },
-        })
-        if (minified.code) {
-          code = minified.code
-        }
+    if (minify) {
+      const minified = await terser.minify(code, {
+        module: true,
+        mangle: false,
+        keep_fnames: true,
+        keep_classnames: true,
+        sourceMap: { url: 'inline' },
+      })
+      if (minified.code) {
+        code = minified.code
       }
     }
 

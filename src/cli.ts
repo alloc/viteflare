@@ -59,14 +59,17 @@ export async function main(argv: string[]) {
       let serverUrl: string
       let serverPromise: Promise<{ close(): void }> | undefined
 
-      function serve(bundle: string, e?: Error) {
+      function serve(bundle: string, error?: Error) {
         const oldServerPromise = serverPromise
         serverPromise = (async () => {
           if (oldServerPromise) {
             const oldServer = await oldServerPromise
             oldServer.close()
             clear()
-            e && console.error(e.message)
+            if (error)
+              console.error(
+                kleur.red(error.constructor.name + ': ' + error.message)
+              )
           }
 
           log(serverPromise ? 'Restarting server...' : 'Starting server...')

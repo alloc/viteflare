@@ -1,5 +1,5 @@
 import '@cloudflare/workers-types'
 
-export function defineWorker<Env>(worker: ExportedHandler<Env>) {
-  return worker
-}
+export const defineWorker = <Env = Record<string, any>>(
+  worker: ExportedHandler<Env>
+) => worker

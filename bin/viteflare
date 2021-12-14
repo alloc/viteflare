@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+process.on('uncaughtException', err => {
+  require('source-map-support/register')
+  console.error('\n' + err.stack)
+  process.exit(1)
+})
+
+require('../dist/cli').main(process.argv)

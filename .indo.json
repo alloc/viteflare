@@ -3,6 +3,10 @@
     "vendor/vitest": {
       "url": "https://github.com/antfu-sponsors/vitest.git",
       "head": "main"
+    },
+    "vendor/wrangler2": {
+      "url": "https://github.com/aleclarson/wrangler2.git",
+      "head": "0.0.0-beta.6"
     }
   }
 }

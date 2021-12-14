@@ -1,0 +1,7 @@
+{
+  "main": "src/main.ts",
+  "dependencies": {
+    "uid": "^2.0.0",
+    "viteflare": "link:../.."
+  }
+}

@@ -3,10 +3,12 @@
   "compilerOptions": {
     "declaration": true,
     "esModuleInterop": true,
+    "jsx": "preserve",
     "lib": ["es2018"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmit": true,
+    "noEmitOnError": false,
     "noUnusedLocals": true,
     "strict": true,
     "sourceMap": true,

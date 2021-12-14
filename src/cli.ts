@@ -106,6 +106,9 @@ export async function main(argv: string[]) {
 
   app
     .command('publish [root]', 'Publish your worker to the orange cloud')
+    .option('--name', 'Publish under another name', {
+      type: String as any,
+    })
     .option('--minify', 'Minify the worker bundle', {
       type: Boolean as any,
       default: true,
@@ -133,7 +136,7 @@ export async function main(argv: string[]) {
         log(`Publishing...`)
         publish({
           config,
-          name: config.name!,
+          name: options.name || config.name!,
           script: path.join(root, cacheDir, 'bundle.js'),
           jsxFactory: options.jsxFactory,
           jsxFragment: options.jsxFragment,

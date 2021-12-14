@@ -35,7 +35,7 @@ export async function main(argv: string[]) {
       default: 'development',
     })
     .action(async (root = process.cwd(), options) => {
-      const config = await readConfig(path.join(root, 'wrangler.toml'))
+      const config = await readConfig(root)
       await login(config)
 
       const hotKeys: HotKeys = {
@@ -118,7 +118,7 @@ export async function main(argv: string[]) {
       }
     )
     .action(async (root = process.cwd(), options) => {
-      const config = await readConfig(path.join(root, 'wrangler.toml'))
+      const config = await readConfig(root)
       await login(config)
       if (!config.name) {
         throw ConfigError('name')

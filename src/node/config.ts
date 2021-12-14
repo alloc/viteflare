@@ -2,15 +2,17 @@
  * Copied from https://github.com/cloudflare/wrangler2/blob/7858ca2d0067920f3cee0cc00ae410883ab4cd68/packages/wrangler/src/config.ts
  */
 import TOML from '@iarna/toml'
-import kleur from 'kleur'
 import { readFile } from 'fs/promises'
+import kleur from 'kleur'
+import path from 'path'
 import type { Config } from 'wrangler/src/config'
 import { log } from '../log'
 
-export async function readConfig(configPath: string): Promise<Config> {
+export async function readConfig(root: string): Promise<Config> {
+  const configPath = path.join(root, 'wrangler.toml')
   const config: Record<string, any> = {}
 
-  if (configPath) {
+  if (root) {
     let tml: string
     try {
       tml = await readFile(configPath, 'utf-8')

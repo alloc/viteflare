@@ -134,7 +134,7 @@ export async function main(argv: string[]) {
         publish({
           config,
           name: config.name!,
-          script: path.join(cacheDir, 'bundle.js'),
+          script: path.join(root, cacheDir, 'bundle.js'),
           jsxFactory: options.jsxFactory,
           jsxFragment: options.jsxFragment,
         })

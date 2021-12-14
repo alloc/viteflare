@@ -73,7 +73,7 @@ export async function main(argv: string[]) {
           const token = await getPreviewToken(bundle, config)
 
           const proxy = useProxy(token, options.port, e => serve(bundle, e))
-          const inspector = useInspector(token)
+          const inspector = useInspector(token, e => serve(bundle, e))
 
           serverUrl = `http://localhost:${options.port}`
           log(`Listening at ${kleur.green(serverUrl)}`)

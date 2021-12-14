@@ -12,7 +12,7 @@ import publish from 'wrangler/src/publish'
 import { log } from './log'
 import { cacheDir, createBundle } from './node/bundle'
 import { ConfigError, readConfig } from './node/config'
-import { useDevToolsRefresh } from './node/devtools'
+import { DevToolsRefresh, useDevToolsRefresh } from './node/devtools'
 import { HotKeys, printHotKeys, useHotKeys } from './node/hotkey'
 import { useInspector } from './node/inspector'
 import { useProxy } from './node/proxy'
@@ -35,7 +35,6 @@ export async function main(argv: string[]) {
       default: 'development',
     })
     .action(async (root = process.cwd(), options) => {
-      const devToolsRefresh = useDevToolsRefresh()
       const config = await readConfig(path.join(root, 'wrangler.toml'))
       await login(config)
 
@@ -89,10 +88,16 @@ export async function main(argv: string[]) {
         })()
       }
 
+      let devToolsRefresh: DevToolsRefresh
+
       const bundle = await createBundle(root, options.mode)
       bundle.on('bundle', bundle => {
-        devToolsRefresh.bundleId++
         serve(bundle)
+
+        // Initialize this after the proxy server is opened,
+        // so StackBlitz opens the correct URL.
+        devToolsRefresh ||= useDevToolsRefresh()
+        devToolsRefresh.bundleId++
       })
     })
 

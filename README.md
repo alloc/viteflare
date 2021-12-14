@@ -8,6 +8,27 @@
 
 This does **NOT** run Vite within your worker. Along with freeing your Cloudflare workers from being either contained in one file or bundled with Webpack, it allows your workers to be transformed using Vite plugins before they're deployed.
 
+### Get Started
+
+```sh
+pnpm install viteflare vite -D
+```
+
+Each worker needs its own directory that contains a `package.json` and `wrangler.toml` file. Optionally, it can also contain a `vite.config.js` file. The `main` field in its `package.json` should point to a module that exports a Cloudflare worker.
+
+```ts
+// Example worker module
+import { defineWorker } from 'viteflare'
+
+export default defineWorker({
+  fetch(request, bindings, context) {
+    return Promise.resolve(new Response('hello world'))
+  },
+})
+```
+
+---
+
 ### Develop your worker
 
 ```sh

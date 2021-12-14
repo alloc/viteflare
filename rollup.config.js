@@ -13,6 +13,7 @@ const bundle = config => ({
 const cliExternal = [
   ...Module.builtinModules,
   '@iarna/toml',
+  '@peculiar/webcrypto',
   'esbuild',
   'formdata-node',
   'fs-extra',
@@ -51,6 +52,15 @@ export default [
     output: {
       file: `${name}.js`,
       format: 'esm',
+      sourcemap: true,
+    },
+  }),
+  bundle({
+    input: 'src/node14.ts',
+    plugins: [esbuild({ sourceMap: true })],
+    output: {
+      file: `dist/node14.js`,
+      format: 'cjs',
       sourcemap: true,
     },
   }),

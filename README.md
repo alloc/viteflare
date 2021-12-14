@@ -6,7 +6,15 @@
 
 **ViteFlare** is a thin wrapper around Cloudflare Wrangler **v2** (which is in beta), and it brings the flexibility of Vite-powered plugins (and Vite's vibrant plugin ecosystem) to Cloudflare workers.
 
-This does **NOT** run Vite within your worker. Along with freeing your Cloudflare workers from being either contained in one file or bundled with Webpack, it allows your workers to be transformed using Vite plugins before they're deployed. It also provides a remote dev environment that exactly reproduces how Cloudflare workers operate in production.
+&nbsp;
+
+**What does this do?**  
+Along with freeing your Cloudflare workers from being either contained in one file or bundled with Webpack, it allows your workers to be transformed using Vite plugins before they're deployed. It also provides a remote dev environment that exactly reproduces how Cloudflare workers operate in production.
+
+**What does this not do?**  
+It does _not_ run Vite within your worker.
+
+&nbsp;
 
 ### Quick Start
 
@@ -37,7 +45,7 @@ export default defineWorker({
 })
 ```
 
----
+&nbsp;
 
 ### Develop your worker
 
@@ -56,6 +64,8 @@ This runs your worker **remotely**. By default, your worker listens to port 8787
 #### Debugging
 
 Press `d` in the terminal while `viteflare` is running. This opens up Chrome devtools for your worker. The devtools will refresh whenever your worker is re-bundled.
+
+&nbsp;
 
 ### Publish your worker
 

@@ -45,6 +45,8 @@ export default defineWorker({
 })
 ```
 
+> **Note:** `defineWorker` is only required when using TypeScript.
+
 &nbsp;
 
 ### Develop your worker
@@ -57,7 +59,7 @@ pnpm viteflare
 pnpm viteflare path/to/worker/directory
 ```
 
-Note: You might use `yarn viteflare` instead, if you prefer.
+> **Note:** You might use `yarn viteflare` instead, if you prefer.
 
 This runs your worker **remotely**. By default, your worker listens to port 8787, but you can use `--port 1234` to change that. Currently, running multiple workers at once is not supported.
 

@@ -1,6 +1,6 @@
 {
   "name": "viteflare",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Cloudflare workers processed by Vite",
   "author": "Alec Larson",
   "license": "MIT",

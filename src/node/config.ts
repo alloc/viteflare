@@ -3,7 +3,7 @@
  */
 import TOML from '@iarna/toml'
 import kleur from 'kleur'
-import { readFile } from 'node:fs/promises'
+import { readFile } from 'fs/promises'
 import type { Config } from 'wrangler/src/config'
 import { log } from '../log'
 

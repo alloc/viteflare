@@ -6,4 +6,5 @@ process.on('uncaughtException', err => {
   process.exit(1)
 })
 
+require('../dist/node14')
 require('../dist/cli').main(process.argv)

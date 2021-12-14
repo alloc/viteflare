@@ -33,11 +33,13 @@ export default defineWorker({
 
 ```sh
 # In your worker's directory:
-viteflare
+pnpm viteflare
 
 # or pass a relative path:
-viteflare path/to/worker/directory
+pnpm viteflare path/to/worker/directory
 ```
+
+Note: You might use `yarn viteflare` instead, if you prefer.
 
 This runs your worker **remotely**. By default, your worker listens to port 8787, but you can use `--port 1234` to change that. Currently, running multiple workers at once is not supported.
 
@@ -49,8 +51,8 @@ Press `d` in the terminal while `viteflare` is running. This opens up Chrome dev
 
 ```sh
 # In your worker's directory:
-viteflare publish
+pnpm viteflare publish
 
 # or pass a relative path:
-viteflare publish path/to/worker/directory
+pnpm viteflare publish path/to/worker/directory
 ```

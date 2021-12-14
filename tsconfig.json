@@ -12,6 +12,6 @@
     "noUnusedLocals": true,
     "strict": true,
     "sourceMap": true,
-    "target": "esnext"
+    "target": "es2020"
   }
 }

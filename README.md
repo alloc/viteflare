@@ -6,7 +6,7 @@
 
 **ViteFlare** is a thin wrapper around Cloudflare Wrangler **v2** (which is in beta), and it brings the flexibility of Vite-powered plugins (and Vite's vibrant plugin ecosystem) to Cloudflare workers.
 
-This does **NOT** run Vite within your worker. Along with freeing your Cloudflare workers from being either contained in one file or bundled with Webpack, it allows your workers to be transformed using Vite plugins before they're deployed.
+This does **NOT** run Vite within your worker. Along with freeing your Cloudflare workers from being either contained in one file or bundled with Webpack, it allows your workers to be transformed using Vite plugins before they're deployed. It also provides a remote dev environment that exactly reproduces how Cloudflare workers operate in production.
 
 ### Quick Start
 

@@ -6,12 +6,14 @@ export function useHotKeys(onKeyPress: (key: string) => void) {
   stdin.setRawMode(true)
   stdin.setEncoding('utf8')
   stdin.once('data', (data: any) => {
+    stdin.pause()
     if (data == '\x03') {
       console.log('^C')
       process.exit()
     } else {
       onKeyPress(data)
     }
+    useHotKeys(onKeyPress)
   })
   stdin.resume()
 }

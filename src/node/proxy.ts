@@ -11,15 +11,26 @@ export function useProxy(
   port: number,
   onError: (error: Error) => void
 ) {
-  const proxy = httpProxy.createProxyServer({
-    secure: false,
-    changeOrigin: true,
-    headers: {
-      'cf-workers-preview-token': token.value,
-    },
-    target: `https://${token.host}`,
-    // TODO: log websockets too? validate durables, etc
-  })
+  const proxy = httpProxy
+    .createProxyServer({
+      secure: false,
+      changeOrigin: true,
+      headers: {
+        'cf-workers-preview-token': token.value,
+      },
+      target: `https://${token.host}`,
+      // TODO: log websockets too? validate durables, etc
+    })
+    .on('error', onError)
+    .on('proxyRes', (proxyRes, req, res) => {
+      // log all requests
+      console.log(
+        kleur.gray(new Date().toLocaleTimeString()),
+        req.method,
+        req.url,
+        res.statusCode // TODO add a status message like Ok etc?
+      )
+    })
 
   const server = http
     .createServer((req, res) => {
@@ -27,17 +38,6 @@ export function useProxy(
     })
     .on('error', onError)
     .listen(port)
-
-  proxy.on('error', onError)
-  proxy.on('proxyRes', function (proxyRes, req, res) {
-    // log all requests
-    console.log(
-      kleur.gray(new Date().toLocaleTimeString()),
-      req.method,
-      req.url,
-      res.statusCode // TODO add a status message like Ok etc?
-    )
-  })
 
   return {
     close() {

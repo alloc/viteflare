@@ -10,7 +10,7 @@ This does **NOT** run Vite within your worker. Along with freeing your Cloudflar
 
 ### Quick Start
 
-Clone [`alloc/vite-template`](https://github.com/alloc/viteflare-template).
+Clone this template: [alloc/viteflare-template](https://github.com/alloc/viteflare-template)
 
 Use `degit` for a blazing fast setup locally:
 

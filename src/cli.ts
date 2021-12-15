@@ -1,24 +1,12 @@
 import cac from 'cac'
-import kleur from 'kleur'
-import { clear } from 'misty'
-import open from 'open'
+import { statSync } from 'fs-extra'
 import path from 'path'
-import {
-  getAccountId,
-  initialise,
-  loginOrRefreshIfRequired,
-} from 'wrangler/src/user'
 import publish from 'wrangler/src/publish'
 import { log } from './log'
 import { cacheDir, createBundle } from './node/bundle'
 import { ConfigError, readConfig } from './node/config'
-import { DevToolsRefresh, useDevToolsRefresh } from './node/devtools'
-import { HotKeys, printHotKeys, useHotKeys } from './node/hotkey'
-import { useInspector } from './node/inspector'
-import { useProxy } from './node/proxy'
-import { getPreviewToken } from './node/worker'
-import { Config } from 'wrangler/src/config'
-import { statSync } from 'fs-extra'
+import { develop } from './node/dev'
+import { ensureLoggedIn } from './node/login'
 
 export async function main(argv: string[]) {
   const app = cac('viteflare')
@@ -36,78 +24,11 @@ export async function main(argv: string[]) {
       default: 'development',
     })
     .action(async (root = process.cwd(), options) => {
-      if (!isDirectory(root)) {
-        // Forward commands to wrangler.
-        return require('./wrangler').main(argv.slice(2))
+      if (isDirectory(root)) {
+        return develop(root, options)
       }
-
-      const config = await readConfig(root)
-      await login(config)
-
-      const hotKeys: HotKeys = {
-        b: {
-          desc: `open browser`,
-          run: () => open(serverUrl),
-        },
-        d: {
-          desc: `open debugger`,
-          run: () =>
-            open(
-              `https://built-devtools.pages.dev/js_app?experiments=true&v8only=true&ws=localhost:9229/ws`
-            ),
-        },
-      }
-
-      useHotKeys(key => {
-        hotKeys[key]?.run()
-      })
-
-      let serverUrl: string
-      let serverPromise: Promise<{ close(): void }> | undefined
-
-      function serve(bundle: string, error?: Error) {
-        const oldServerPromise = serverPromise
-        serverPromise = (async () => {
-          if (oldServerPromise) {
-            const oldServer = await oldServerPromise
-            oldServer.close()
-            clear()
-            if (error)
-              console.error(
-                kleur.red(error.constructor.name + ': ' + error.message)
-              )
-          }
-
-          log(serverPromise ? 'Restarting server...' : 'Starting server...')
-          const token = await getPreviewToken(bundle, config)
-
-          const proxy = useProxy(token, options.port, e => serve(bundle, e))
-          const inspector = useInspector(token, e => serve(bundle, e))
-
-          serverUrl = `http://localhost:${options.port}`
-          log(`Listening at ${kleur.green(serverUrl)}`)
-          printHotKeys(hotKeys)
-
-          return {
-            close() {
-              inspector.close()
-              proxy.close()
-            },
-          }
-        })()
-      }
-
-      let devToolsRefresh: DevToolsRefresh
-
-      const bundle = await createBundle(root, options.mode)
-      bundle.on('bundle', bundle => {
-        serve(bundle)
-
-        // Initialize this after the proxy server is opened,
-        // so StackBlitz opens the correct URL.
-        devToolsRefresh ||= useDevToolsRefresh()
-        devToolsRefresh.bundleId++
-      })
+      // Forward commands to wrangler.
+      return require('./wrangler').main(argv.slice(2))
     })
 
   app
@@ -131,7 +52,7 @@ export async function main(argv: string[]) {
     )
     .action(async (root = process.cwd(), options) => {
       const config = await readConfig(root)
-      await login(config)
+      await ensureLoggedIn(config)
       if (!config.name) {
         throw ConfigError('name')
       }
@@ -151,22 +72,6 @@ export async function main(argv: string[]) {
     })
 
   app.parse(argv)
-}
-
-async function login(config: Config) {
-  await initialise()
-  const loggedIn = await loginOrRefreshIfRequired()
-  if (!loggedIn) {
-    log('Login failed')
-    process.exit(1)
-  }
-  if (!config.account_id) {
-    config.account_id = await getAccountId()
-    if (!config.account_id) {
-      log('Account ID not found')
-      process.exit(1)
-    }
-  }
 }
 
 function isDirectory(path: string) {

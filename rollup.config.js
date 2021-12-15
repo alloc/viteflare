@@ -1,6 +1,8 @@
+import commonjs from '@rollup/plugin-commonjs'
+import json from '@rollup/plugin-json'
+import resolve from '@rollup/plugin-node-resolve'
 import Module from 'module'
 import esbuild from 'rollup-plugin-esbuild'
-import resolve from '@rollup/plugin-node-resolve'
 
 const name = require('./package.json').main.replace(/\.js$/, '')
 
@@ -11,39 +13,39 @@ const bundle = config => ({
 
 const cliExternal = [
   ...Module.builtinModules,
-  '@iarna/toml',
+  '@cloudflare/pages-functions-compiler',
   '@peculiar/webcrypto',
   'esbuild',
-  'formdata-node',
-  'fs-extra',
-  'http-proxy',
-  'misty',
+  'ink',
+  'miniflare',
   'node-abort-controller',
-  'open',
-  'prompts',
-  'source-map',
+  'semiver',
+  'source-map-support',
   'terser',
-  'tmp-promise',
   'vite',
-  'ws',
+  'web-streams-polyfill',
 ]
 
 export default [
   bundle({
-    input: 'src/cli.ts',
+    input: ['src/cli.ts', 'src/wrangler.ts'],
     external: id => cliExternal.includes(id),
+    context: 'global',
     plugins: [
+      validateDependencies(),
       node14Compat(),
       esbuild({ sourceMap: true }),
+      json(),
+      commonjs(),
       resolve({
-        extensions: ['.ts', '.tsx'],
+        extensions: ['.js', '.ts', '.tsx'],
       }),
     ],
     output: {
-      file: `dist/cli.js`,
+      dir: 'dist',
       format: 'cjs',
       sourcemap: true,
-      inlineDynamicImports: true,
+      chunkFileNames: 'chunks/[name]-[hash].js',
     },
   }),
   bundle({
@@ -72,6 +74,26 @@ function node14Compat() {
     resolveId(id) {
       if (id.startsWith('node:')) {
         return id.slice(5)
+      }
+    },
+  }
+}
+
+// Keep dependencies in sync with Wrangler
+function validateDependencies() {
+  return {
+    buildStart() {
+      const viteflarePkg = require('./package.json')
+      const wranglerPkg = require('./node_modules/wrangler/package.json')
+      for (const key of ['dependencies', 'devDependencies']) {
+        for (const [dep, current] of Object.entries(viteflarePkg[key])) {
+          const expected =
+            wranglerPkg.dependencies[dep] || wranglerPkg.devDependencies[dep]
+
+          if (expected && expected !== current) {
+            throw Error(`Expected ${dep}@${expected} but got ${current}`)
+          }
+        }
       }
     },
   }

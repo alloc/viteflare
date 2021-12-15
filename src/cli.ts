@@ -18,6 +18,7 @@ import { useInspector } from './node/inspector'
 import { useProxy } from './node/proxy'
 import { getPreviewToken } from './node/worker'
 import { Config } from 'wrangler/src/config'
+import { statSync } from 'fs-extra'
 
 export async function main(argv: string[]) {
   const app = cac('viteflare')
@@ -35,6 +36,11 @@ export async function main(argv: string[]) {
       default: 'development',
     })
     .action(async (root = process.cwd(), options) => {
+      if (!isDirectory(root)) {
+        // Forward commands to wrangler.
+        return require('./wrangler').main(argv.slice(2))
+      }
+
       const config = await readConfig(root)
       await login(config)
 
@@ -160,5 +166,13 @@ async function login(config: Config) {
       log('Account ID not found')
       process.exit(1)
     }
+  }
+}
+
+function isDirectory(path: string) {
+  try {
+    return statSync(path).isDirectory()
+  } catch {
+    return false
   }
 }

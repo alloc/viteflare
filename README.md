@@ -78,3 +78,15 @@ pnpm viteflare publish
 # or pass a relative path:
 pnpm viteflare publish path/to/worker/directory
 ```
+
+&nbsp;
+
+### Command forwarding
+
+Every command supported by the `wrangler` CLI also works with the `viteflare` CLI, because ViteFlare will simply forward unimplemented commands to Wrangler v2.
+
+```sh
+pnpm viteflare login
+```
+
+This means you'll never have to install `wrangler@beta` when using ViteFlare.

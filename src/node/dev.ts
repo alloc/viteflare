@@ -42,10 +42,7 @@ export async function develop(root: string, options: any) {
         const oldServer = await oldServerPromise
         oldServer.close()
         clear()
-        if (error)
-          console.error(
-            kleur.red(error.constructor.name + ': ' + error.message)
-          )
+        error && logError(error)
       }
 
       log(serverPromise ? 'Restarting server...' : 'Starting server...')
@@ -65,6 +62,8 @@ export async function develop(root: string, options: any) {
         },
       }
     })()
+
+    serverPromise.catch(logError)
   }
 
   let devToolsRefresh: DevToolsRefresh
@@ -78,4 +77,8 @@ export async function develop(root: string, options: any) {
     devToolsRefresh ||= useDevToolsRefresh()
     devToolsRefresh.bundleId++
   })
+}
+
+function logError(e: any) {
+  console.error('\n' + kleur.red(e.constructor.name + ': ' + e.message))
 }

@@ -43,11 +43,15 @@ export async function develop(root: string, options: any) {
         oldServer.close()
         clear()
         error && logError(error)
+        log('Restarting server...')
+      } else {
+        log('Starting server...')
       }
 
-      log(serverPromise ? 'Restarting server...' : 'Starting server...')
+      // Deploy the worker to a production-like remote environment.
       const token = await getPreviewToken(bundle, config)
 
+      // Expose the deployed worker locally.
       const proxy = useProxy(token, options.port, e => serve(bundle, e))
       const inspector = useInspector(token, e => serve(bundle, e))
 

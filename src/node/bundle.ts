@@ -117,7 +117,22 @@ export async function createBundle(
     emitter.emit('bundle', code)
   }
 
-  const buildSoon = debounce(build, 50)
+  let lastBuild: Promise<void> | undefined
+  let isBuildQueued = false
+
+  const buildSoon = debounce(async () => {
+    if (isBuildQueued) return
+    if (lastBuild) {
+      isBuildQueued = true
+      await lastBuild.catch(() => {})
+      isBuildQueued = false
+    }
+    try {
+      await (lastBuild = build())
+    } finally {
+      lastBuild = undefined
+    }
+  }, 50)
 
   buildSoon()
   server.watcher.on('change', file => {

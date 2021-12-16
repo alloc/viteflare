@@ -20,8 +20,6 @@ export async function createBundle(
   mode: string,
   minify?: boolean
 ): Promise<Bundle> {
-  const isProduction = mode === 'production'
-
   let server: ViteDevServer
   try {
     clear()

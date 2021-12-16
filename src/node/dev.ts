@@ -51,9 +51,12 @@ export async function develop(root: string, options: any) {
       // Deploy the worker to a production-like remote environment.
       const token = await getPreviewToken(bundle, config)
 
+      let closed = false
+      const restartOnError = (e: any) => !closed && serve(bundle, e)
+
       // Expose the deployed worker locally.
-      const proxy = useProxy(token, options.port, e => serve(bundle, e))
-      const inspector = useInspector(token, e => serve(bundle, e))
+      const proxy = useProxy(token, options.port, restartOnError)
+      const inspector = useInspector(token, restartOnError)
 
       serverUrl = `http://localhost:${options.port}`
       log(`Listening at ${kleur.green(serverUrl)}`)
@@ -61,6 +64,7 @@ export async function develop(root: string, options: any) {
 
       return {
         close() {
+          closed = true
           inspector.close()
           proxy.close()
         },

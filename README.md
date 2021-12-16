@@ -90,3 +90,16 @@ pnpm viteflare login
 ```
 
 This means you'll never have to install `wrangler@beta` when using ViteFlare.
+
+&nbsp;
+
+### Environment variables
+
+The following variables are recognized by ViteFlare CLI.
+
+```sh
+# Override "account_id" in wrangler.toml
+CF_ACCOUNT_ID=fcaf04c1e81c7db9b41b551ae7ccc949
+# Skip the Cloudflare login flow
+CF_API_TOKEN=secret
+```

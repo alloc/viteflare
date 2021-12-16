@@ -19,6 +19,7 @@ const cliExternal = [
   'ink',
   'miniflare',
   'node-abort-controller',
+  'react',
   'semiver',
   'source-map-support',
   'terser',

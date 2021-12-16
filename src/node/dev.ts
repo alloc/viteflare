@@ -37,10 +37,17 @@ export async function develop(root: string, options: any) {
 
   function serve(bundle: string, error?: Error) {
     const oldServerPromise = serverPromise
-    serverPromise = (async () => {
+    let newServerPromise: typeof serverPromise
+    serverPromise = newServerPromise = (async () => {
       if (oldServerPromise) {
         const oldServer = await oldServerPromise.catch(() => {})
         oldServer?.close()
+
+        // This might not be the newest `serve` call anymore.
+        if (serverPromise !== newServerPromise) {
+          return { close() {} }
+        }
+
         clear()
         error && logError(error)
         log('Restarting server...')

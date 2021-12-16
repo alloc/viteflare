@@ -48,6 +48,7 @@ export async function main(argv: string[]) {
       }
       if (options.dev) {
         config.workers_dev = true
+        options.env ||= 'dev'
       }
 
       const bundle = await createBundle(root, 'production', options.minify)

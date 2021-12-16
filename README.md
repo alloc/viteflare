@@ -103,3 +103,12 @@ CF_ACCOUNT_ID=fcaf04c1e81c7db9b41b551ae7ccc949
 # Skip the Cloudflare login flow
 CF_API_TOKEN=secret
 ```
+
+&nbsp;
+
+## Examples
+
+- **Type-checking demo** [link](https://github.com/alloc/viteflare/tree/demo/typechecking#readme)  
+  Check for compile-time type errors with TypeScript
+
+  ![Screenshot](https://i.imgur.com/OdBBmyl.png)

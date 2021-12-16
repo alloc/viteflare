@@ -53,7 +53,7 @@ export async function main(argv: string[]) {
     .action(async (root = process.cwd(), options) => {
       const config = await readConfig(root)
       await ensureLoggedIn(config)
-      if (!config.name) {
+      if (!config.name && !options.name) {
         throw ConfigError('name')
       }
 

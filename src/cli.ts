@@ -27,8 +27,8 @@ export async function main(argv: string[]) {
       if (isDirectory(root)) {
         return develop(root, options)
       }
-      // Forward commands to wrangler.
-      return require('./wrangler').main(argv.slice(2))
+      // Fall back to wrangler.
+      throw { name: 'CACError' }
     })
 
   app
@@ -71,7 +71,19 @@ export async function main(argv: string[]) {
       })
     })
 
-  app.parse(argv)
+  try {
+    app.parse(argv)
+  } catch (e: any) {
+    if (e.name !== 'CACError') {
+      throw e
+    }
+    if (app.matchedCommand?.name === '' && !isDirectory(argv[2])) {
+      // Forward commands to wrangler.
+      return require('./wrangler').main(argv.slice(2))
+    }
+    const { red } = require('kleur')
+    console.error(red(e.message))
+  }
 }
 
 function isDirectory(path: string) {

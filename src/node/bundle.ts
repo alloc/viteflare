@@ -117,9 +117,9 @@ export async function createBundle(
     emitter.emit('bundle', code)
   }
 
-  setImmediate(() => build().catch(console.error))
-
   const buildSoon = debounce(build, 50)
+
+  buildSoon()
   server.watcher.on('change', file => {
     if (server.moduleGraph.getModulesByFile(file)) {
       buildSoon()

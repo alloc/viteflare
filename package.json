@@ -15,7 +15,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "prepare": "rimraf dist && rollup -c",
     "test": "vitest"
   },
   "dependencies": {
@@ -33,6 +34,7 @@
     "web-streams-polyfill": "^3.2.0"
   },
   "devDependencies": {
+    "@alloc/fast-rimraf": "^1.0.8",
     "@alloc/prettier-config": "^1.0.0",
     "@iarna/toml": "^2.2.5",
     "@miniflare/core": "2.0.0-rc.2",

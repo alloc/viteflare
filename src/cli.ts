@@ -20,7 +20,6 @@ export async function main(argv: string[]) {
       default: 8787,
     })
     .option('--mode <mode>', `Set bundle mode (eg: "production")`, {
-      type: String as any,
       default: 'development',
     })
     .action((root = process.cwd(), options) => {
@@ -34,23 +33,12 @@ export async function main(argv: string[]) {
   app
     .command('publish [root]', 'Publish your worker to the orange cloud')
     .option('-D, --dev', 'Publish to workers.dev')
-    .option('--name', 'Publish under another name', {
-      type: String as any,
-    })
+    .option('--name', 'Publish under another name')
     .option('--minify', 'Minify the worker bundle', {
-      type: Boolean as any,
       default: true,
     })
-    .option('jsx-factory', 'The function that is called for each JSX element', {
-      type: String as any,
-    })
-    .option(
-      'jsx-fragment',
-      'The function that is called for each JSX fragment',
-      {
-        type: String as any,
-      }
-    )
+    .option('--jsx-factory', 'The function called for each JSX element')
+    .option('--jsx-fragment', 'The function called for each JSX fragment')
     .action(async (root = process.cwd(), options) => {
       const config = await readConfig(root)
       await ensureLoggedIn(config)

@@ -39,8 +39,8 @@ export async function develop(root: string, options: any) {
     const oldServerPromise = serverPromise
     serverPromise = (async () => {
       if (oldServerPromise) {
-        const oldServer = await oldServerPromise
-        oldServer.close()
+        const oldServer = await oldServerPromise.catch(() => {})
+        oldServer?.close()
         clear()
         error && logError(error)
         log('Restarting server...')

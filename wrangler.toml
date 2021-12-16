@@ -1,0 +1,3 @@
+name = "viteflare-starter"
+type = "javascript"
+workers_dev = true

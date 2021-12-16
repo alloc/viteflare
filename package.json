@@ -1,0 +1,15 @@
+{
+  "name": "viteflare-starter",
+  "version": "1.0.0",
+  "main": "src/worker.ts",
+  "devDependencies": {
+    "typescript": "^4.5.4",
+    "vite": "^2.7.2",
+    "vite-esbuild-typescript-checker": "^0.0.1-alpha.9",
+    "viteflare": "^0.1.5"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
+}

@@ -23,7 +23,7 @@ export async function main(argv: string[]) {
       type: String as any,
       default: 'development',
     })
-    .action(async (root = process.cwd(), options) => {
+    .action((root = process.cwd(), options) => {
       if (isDirectory(root)) {
         return develop(root, options)
       }

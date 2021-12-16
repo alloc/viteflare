@@ -33,6 +33,7 @@ export async function main(argv: string[]) {
 
   app
     .command('publish [root]', 'Publish your worker to the orange cloud')
+    .option('-D, --dev', 'Publish to workers.dev')
     .option('--name', 'Publish under another name', {
       type: String as any,
     })
@@ -55,6 +56,9 @@ export async function main(argv: string[]) {
       await ensureLoggedIn(config)
       if (!config.name && !options.name) {
         throw ConfigError('name')
+      }
+      if (options.dev) {
+        config.workers_dev = true
       }
 
       const bundle = await createBundle(root, 'production', options.minify)

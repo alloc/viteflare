@@ -24,6 +24,7 @@
     "@cloudflare/workers-types": "^3.2.0",
     "@peculiar/webcrypto": "^1.2.3",
     "esbuild": "0.13.12",
+    "glob": "^7.2.0",
     "ink": "^3.2.0",
     "miniflare": "2.0.0-rc.2",
     "node-abort-controller": "^3.0.1",

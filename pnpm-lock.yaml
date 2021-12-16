@@ -4,13 +4,13 @@ specifiers:
   typescript: ^4.5.4
   vite: ^2.7.2
   vite-esbuild-typescript-checker: ^0.0.1-alpha.9
-  viteflare: ^0.1.5
+  viteflare: ^0.1.8
 
 devDependencies:
   typescript: 4.5.4
   vite: 2.7.2
   vite-esbuild-typescript-checker: 0.0.1-alpha.9
-  viteflare: 0.1.5_vite@2.7.2
+  viteflare: 0.1.8_vite@2.7.2
 
 packages:
 
@@ -1815,7 +1815,7 @@ packages:
     resolution: {integrity: sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==}
     dev: true
 
-  /ink/3.2.0:
+  /ink/3.2.0_react@17.0.2:
     resolution: {integrity: sha512-firNp1q3xxTzoItj/eOOSZQnYSlyrWks5llCTVX37nJ59K3eXbQ8PtzCguqo8YI19EELo5QxaKnJd4VxzhU8tg==}
     engines: {node: '>=10'}
     peerDependencies:
@@ -1836,8 +1836,9 @@ packages:
       is-ci: 2.0.0
       lodash: 4.17.21
       patch-console: 1.0.0
+      react: 17.0.2
       react-devtools-core: 4.22.1
-      react-reconciler: 0.26.2
+      react-reconciler: 0.26.2_react@17.0.2
       scheduler: 0.20.2
       signal-exit: 3.0.6
       slice-ansi: 3.0.0
@@ -2377,7 +2378,7 @@ packages:
       - utf-8-validate
     dev: true
 
-  /react-reconciler/0.26.2:
+  /react-reconciler/0.26.2_react@17.0.2:
     resolution: {integrity: sha512-nK6kgY28HwrMNwDnMui3dvm3rCFjZrcGiuwLc5COUipBK5hWHLOxMJhSnSomirqWwjPBJKV1QcbkI0VJr7Gl1Q==}
     engines: {node: '>=0.10.0'}
     peerDependencies:
@@ -2385,7 +2386,16 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
+      react: 17.0.2
       scheduler: 0.20.2
+    dev: true
+
+  /react/17.0.2:
+    resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
     dev: true
 
   /readdirp/3.6.0:
@@ -2952,8 +2962,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /viteflare/0.1.5_vite@2.7.2:
-    resolution: {integrity: sha512-4rNGD65GzvtUIHgNvIt+cRj58thpDHXGUF/m9XXnB1XBpi5hxfj9SgwqccqpJESZ+c5acSTzzcHwtf1BizgIeA==}
+  /viteflare/0.1.8_vite@2.7.2:
+    resolution: {integrity: sha512-x4wsjmcXmfZWMLlBiWigpx+tdl85tAeML2mE5qE0mxiCtuWVtsP8suMGWuUfE7L7XRKb0b1Q0r0TTymrt+GkwQ==}
     hasBin: true
     peerDependencies:
       vite: '>=2.7'
@@ -2962,9 +2972,11 @@ packages:
       '@cloudflare/workers-types': 3.2.0
       '@peculiar/webcrypto': 1.2.3
       esbuild: 0.13.12
-      ink: 3.2.0
+      glob: 7.2.0
+      ink: 3.2.0_react@17.0.2
       miniflare: 2.0.0-rc.2
       node-abort-controller: 3.0.1
+      react: 17.0.2
       semiver: 1.1.0
       serve: 13.0.2
       source-map-support: 0.5.21
@@ -2980,7 +2992,6 @@ packages:
       - bufferutil
       - cron-schedule
       - ioredis
-      - react
       - utf-8-validate
     dev: true
 

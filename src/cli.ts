@@ -33,6 +33,7 @@ export async function main(argv: string[]) {
   app
     .command('publish [root]', 'Publish your worker to the orange cloud')
     .option('-D, --dev', 'Publish to workers.dev')
+    .option('-E, --env', 'Use an environment from wrangler.toml')
     .option('--name', 'Publish under another name')
     .option('--minify', 'Minify the worker bundle', {
       default: true,
@@ -55,6 +56,7 @@ export async function main(argv: string[]) {
         log(`Publishing...`)
         publish({
           config,
+          env: options.env,
           name: options.name || config.name!,
           script: path.join(root, cacheDir, 'bundle.js'),
           jsxFactory: options.jsxFactory,

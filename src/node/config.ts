@@ -41,8 +41,10 @@ export async function readConfig(
     config.route = config.routes = undefined
   }
 
-  const defaultVariables = config.vars.default || {}
-  delete config.vars.default
+  const defaultVariables = config.vars?.default || {}
+  if (config.vars?.default) {
+    delete config.vars.default
+  }
 
   Object.keys(config.env || {}).forEach(env => {
     config.env[env].vars = {

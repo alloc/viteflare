@@ -1,6 +1,6 @@
 import path from 'path'
 import { cacheDir } from '../node/bundle'
-import { Plugin } from '../node/plugin'
+import { Plugin } from '../plugin'
 
 /**
  * The default plugin used to develop and publish your worker.

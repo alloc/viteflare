@@ -1,8 +1,7 @@
 import * as vite from 'vite'
 import { Config } from 'wrangler/src/config'
-import { PublishFlags } from '../types'
-import { Bundle } from './bundle'
-import { HotKeys } from './hotkey'
+import { PublishFlags } from './types'
+import { HotKeys } from './node/hotkey'
 
 type Promisable<T> = T | Promise<T>
 type DevServer = {
@@ -61,6 +60,6 @@ export async function findWorkerPlugin(
   }
   return (
     (config.plugins as Plugin[]).find(plugin => plugin[hook]) ||
-    (await import('../cloudflare/plugin')).CloudFlarePlugin
+    (await import('./cloudflare/plugin')).CloudFlarePlugin
   )
 }

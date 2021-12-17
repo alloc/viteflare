@@ -1,11 +1,10 @@
 import cac from 'cac'
 import { statSync } from 'fs-extra'
-import path from 'path'
 import { log } from './log'
-import { cacheDir, createBundle } from './node/bundle'
+import { createBundle } from './node/bundle'
 import { ConfigError, readConfig } from './node/config'
 import { develop } from './node/dev'
-import { findWorkerPlugin } from './node/plugin'
+import { findWorkerPlugin } from './plugin'
 
 export async function main(argv: string[]) {
   const app = cac('viteflare')

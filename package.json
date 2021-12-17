@@ -12,7 +12,8 @@
   },
   "files": [
     "src",
-    "dist"
+    "dist",
+    "plugin"
   ],
   "scripts": {
     "dev": "rollup -c -w",

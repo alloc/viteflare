@@ -31,7 +31,7 @@ const cliExternal = [
 
 export default [
   bundle({
-    input: 'src/cli.ts',
+    input: ['src/cli.ts', 'src/plugin.ts'],
     external: id => cliExternal.includes(id),
     context: 'global',
     plugins: [

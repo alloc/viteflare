@@ -1,11 +1,11 @@
 import kleur from 'kleur'
 import { clear } from 'misty'
 import { log } from '../log'
+import { findWorkerPlugin, Plugin } from '../plugin'
 import { createBundle } from './bundle'
 import { readConfig } from './config'
 import { DevToolsRefresh, useDevToolsRefresh } from './devtools'
 import { HotKeys, printHotKeys, useHotKeys } from './hotkey'
-import { findWorkerPlugin, Plugin } from './plugin'
 
 export async function develop(root: string, options: any) {
   const config = await readConfig(root)

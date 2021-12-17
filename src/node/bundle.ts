@@ -22,7 +22,6 @@ export async function createBundle(
 ): Promise<Bundle> {
   let server: ViteDevServer
   try {
-    clear()
     server = await createServer({
       root,
       mode,
@@ -37,6 +36,7 @@ export async function createBundle(
       return new Promise(resolve => {
         const { file } = e.errors[0].location
         const watcher = watch(file, {}, () => {
+          clear()
           watcher.close()
           resolve(createBundle(root, mode))
         })

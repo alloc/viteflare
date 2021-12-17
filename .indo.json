@@ -10,6 +10,10 @@
     },
     "template": {
       "url": "https://github.com/alloc/viteflare-template.git"
+    },
+    "vendor/firebase-tools": {
+      "url": "https://github.com/aleclarson/firebase-tools.git",
+      "head": "v9"
     }
   }
 }

@@ -1,0 +1,19 @@
+{
+  "name": "viteflare-firebase",
+  "version": "0.1.0",
+  "main": "dist/plugin.js",
+  "scripts": {
+    "build": "tsc -p ."
+  },
+  "dependencies": {
+    "firebase-tools": "^9.23.3"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.4",
+    "vite": "^2.7.2",
+    "viteflare": "workspace:*"
+  },
+  "peerDependencies": {
+    "viteflare": ">=0.2.0-rc.0"
+  }
+}

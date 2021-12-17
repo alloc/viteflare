@@ -1,4 +1,5 @@
 import kleur from 'kleur'
+import open from 'open'
 import { clear } from 'misty'
 import { log } from '../log'
 import { findWorkerPlugin, Plugin } from '../plugin'

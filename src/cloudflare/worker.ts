@@ -1,7 +1,7 @@
 import { createWorker } from 'wrangler/src/api/worker'
 import { getAPIToken } from 'wrangler/src/user'
 import { Config } from 'wrangler/src/config'
-import { ConfigError } from './config'
+import { ConfigError } from '../node/config'
 
 export async function getPreviewToken(bundle: string, config: Config) {
   if (!config.name) {
@@ -12,8 +12,9 @@ export async function getPreviewToken(bundle: string, config: Config) {
   }
   return createWorker(
     {
+      name: config.name!,
       main: {
-        name: config.name,
+        name: config.name!,
         type: 'esm',
         content: bundle,
       },

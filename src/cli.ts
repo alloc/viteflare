@@ -1,12 +1,11 @@
 import cac from 'cac'
 import { statSync } from 'fs-extra'
-import kleur from 'kleur'
 import path from 'path'
-import publish from 'wrangler/src/publish'
 import { log } from './log'
 import { cacheDir, createBundle } from './node/bundle'
 import { ConfigError, readConfig } from './node/config'
 import { develop } from './node/dev'
+import { findWorkerPlugin } from './node/plugin'
 
 export async function main(argv: string[]) {
   const app = cac('viteflare')
@@ -46,24 +45,26 @@ export async function main(argv: string[]) {
       '--jsx-fragment <string>',
       'The function called for each JSX fragment'
     )
-    .action(async (root = process.cwd(), options) => {
+    .action(async (root, options) => {
+      if (root) process.chdir(root)
+      else root = process.cwd()
+
       const config = await readConfig(root, options)
-      if (!config.name && !options.name) {
+      if (options.name) {
+        config.name = options.name
+      } else if (!config.name) {
         throw ConfigError('name')
       }
 
       const bundle = await createBundle(root, 'production', options.minify)
-      bundle.on('bundle', () => {
+      bundle.on('bundle', async code => {
         bundle.close()
         log(`Publishing...`)
-        publish({
-          config,
-          env: options.env,
-          name: options.name || config.name!,
-          script: path.join(root, cacheDir, 'bundle.js'),
-          jsxFactory: options.jsxFactory,
-          jsxFragment: options.jsxFragment,
-        })
+        const { publishWorker } = await findWorkerPlugin(
+          'publishWorker',
+          bundle.server.config
+        )
+        publishWorker!(code, config, options)
       })
     })
 
@@ -74,8 +75,8 @@ export async function main(argv: string[]) {
       throw e
     }
     if (app.matchedCommand?.name === '' && !isDirectory(argv[2])) {
-      // Forward commands to wrangler.
-      return require('./wrangler').main(argv.slice(2))
+      const { runCommand } = await findWorkerPlugin('runCommand')
+      return runCommand!(argv.slice(2))
     }
     const { red } = require('kleur')
     console.error(red(e.message))

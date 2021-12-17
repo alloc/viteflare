@@ -5,17 +5,28 @@ import { createBundle } from './bundle'
 import { readConfig } from './config'
 import { DevToolsRefresh, useDevToolsRefresh } from './devtools'
 import { HotKeys, printHotKeys, useHotKeys } from './hotkey'
-import { useInspector } from './inspector'
-import { useProxy } from './proxy'
-import { getPreviewToken } from './worker'
+import { findWorkerPlugin, Plugin } from './plugin'
 
 export async function develop(root: string, options: any) {
   const config = await readConfig(root)
 
   let serverUrl: string
   let serverPromise: Promise<{ close(): void }> | undefined
+  let devToolsRefresh: DevToolsRefresh
+  let workerPlugin: Plugin
+  let hotKeys: HotKeys | undefined
 
-  function serve(bundle: string, error?: Error) {
+  const bundle = await createBundle(root, options.mode)
+  bundle.on('bundle', async code => {
+    serve(code)
+
+    // Initialize this after the proxy server is opened,
+    // so StackBlitz opens the correct URL.
+    devToolsRefresh ||= useDevToolsRefresh()
+    devToolsRefresh.bundleId++
+  })
+
+  function serve(code: string, error?: Error) {
     const oldServerPromise = serverPromise
     let newServerPromise: typeof serverPromise
     serverPromise = newServerPromise = (async () => {
@@ -35,60 +46,37 @@ export async function develop(root: string, options: any) {
         log('Starting server...')
       }
 
-      // Deploy the worker to a production-like remote environment.
-      const token = await getPreviewToken(bundle, config)
+      workerPlugin ||= await findWorkerPlugin(
+        'developWorker',
+        bundle.server.config
+      )
 
-      let closed = false
-      const restartOnError = (e: any) => !closed && serve(bundle, e)
-
-      // Expose the deployed worker locally.
-      const proxy = useProxy(token, options.port, restartOnError)
-      const inspector = useInspector(token, restartOnError)
+      const devServer = await workerPlugin.developWorker!(code, {
+        port: options.port,
+        config,
+        serve,
+      })
 
       serverUrl = `http://localhost:${options.port}`
       log(`Listening at ${kleur.green(serverUrl)}`)
-      printHotKeys(hotKeys)
+      printHotKeys(
+        (hotKeys = {
+          b: {
+            desc: `open browser`,
+            run: () => open(serverUrl),
+          },
+          ...devServer.hotKeys,
+        })
+      )
 
-      return {
-        close() {
-          closed = true
-          inspector.close()
-          proxy.close()
-        },
-      }
+      return devServer
     })()
 
     serverPromise.catch(logError)
   }
 
-  let devToolsRefresh: DevToolsRefresh
-
-  const bundle = await createBundle(root, options.mode)
-  bundle.on('bundle', bundle => {
-    serve(bundle)
-
-    // Initialize this after the proxy server is opened,
-    // so StackBlitz opens the correct URL.
-    devToolsRefresh ||= useDevToolsRefresh()
-    devToolsRefresh.bundleId++
-  })
-
-  const hotKeys: HotKeys = {
-    b: {
-      desc: `open browser`,
-      run: () => open(serverUrl),
-    },
-    d: {
-      desc: `open debugger`,
-      run: () =>
-        open(
-          `https://built-devtools.pages.dev/js_app?experiments=true&v8only=true&ws=localhost:9229/ws`
-        ),
-    },
-  }
-
   useHotKeys(key => {
-    hotKeys[key]?.run()
+    hotKeys?.[key]?.run()
   })
 }
 

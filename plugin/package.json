@@ -1,0 +1,6 @@
+{
+  "name": "@viteflare/plugin",
+  "private": true,
+  "main": "../dist/plugin.js",
+  "types": "../src/plugin.ts"
+}

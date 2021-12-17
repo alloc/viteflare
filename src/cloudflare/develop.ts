@@ -1,4 +1,4 @@
-import { DevelopWorkerHook } from '../node/plugin'
+import { DevelopWorkerHook } from '../plugin'
 import { useInspector } from './inspector'
 import { useProxy } from './proxy'
 import { getPreviewToken } from './worker'

@@ -42,7 +42,8 @@ export async function readConfig(root: string): Promise<Config> {
     mirroredFields.forEach(field => {
       // if it exists on top level, it should exist on env defns
       Object.keys(config[field] || {}).forEach(fieldKey => {
-        if (!(fieldKey in config.env[env][field])) {
+        const envObj = config.env[env][field]
+        if (envObj && !(fieldKey in envObj)) {
           log(
             kleur.yellow('warn'),
             `Environment ${kleur.cyan(env)} is missing "${field}.${fieldKey}"` +

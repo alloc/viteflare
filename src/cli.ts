@@ -53,7 +53,6 @@ export async function main(argv: string[]) {
       }
       if (options.dev) {
         config.workers_dev = true
-        options.env ||= 'dev'
       }
       if (options.env && options.env !== 'dev' && !config.env?.[options.env]) {
         log(`Environment ${kleur.cyan(options.env)} does not exist`)

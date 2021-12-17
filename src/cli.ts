@@ -1,5 +1,6 @@
 import cac from 'cac'
 import { statSync } from 'fs-extra'
+import kleur from 'kleur'
 import path from 'path'
 import publish from 'wrangler/src/publish'
 import { log } from './log'
@@ -49,6 +50,10 @@ export async function main(argv: string[]) {
       if (options.dev) {
         config.workers_dev = true
         options.env ||= 'dev'
+      }
+      if (options.env && options.env !== 'dev' && !config.env?.[options.env]) {
+        log(`Environment ${kleur.cyan(options.env)} does not exist`)
+        process.exit(1)
       }
 
       const bundle = await createBundle(root, 'production', options.minify)

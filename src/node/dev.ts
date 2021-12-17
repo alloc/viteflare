@@ -12,24 +12,6 @@ import { getPreviewToken } from './worker'
 export async function develop(root: string, options: any) {
   const config = await readConfig(root)
 
-  const hotKeys: HotKeys = {
-    b: {
-      desc: `open browser`,
-      run: () => open(serverUrl),
-    },
-    d: {
-      desc: `open debugger`,
-      run: () =>
-        open(
-          `https://built-devtools.pages.dev/js_app?experiments=true&v8only=true&ws=localhost:9229/ws`
-        ),
-    },
-  }
-
-  useHotKeys(key => {
-    hotKeys[key]?.run()
-  })
-
   let serverUrl: string
   let serverPromise: Promise<{ close(): void }> | undefined
 
@@ -89,6 +71,24 @@ export async function develop(root: string, options: any) {
     // so StackBlitz opens the correct URL.
     devToolsRefresh ||= useDevToolsRefresh()
     devToolsRefresh.bundleId++
+  })
+
+  const hotKeys: HotKeys = {
+    b: {
+      desc: `open browser`,
+      run: () => open(serverUrl),
+    },
+    d: {
+      desc: `open debugger`,
+      run: () =>
+        open(
+          `https://built-devtools.pages.dev/js_app?experiments=true&v8only=true&ws=localhost:9229/ws`
+        ),
+    },
+  }
+
+  useHotKeys(key => {
+    hotKeys[key]?.run()
   })
 }
 

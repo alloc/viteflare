@@ -6,13 +6,11 @@ import { readConfig } from './config'
 import { DevToolsRefresh, useDevToolsRefresh } from './devtools'
 import { HotKeys, printHotKeys, useHotKeys } from './hotkey'
 import { useInspector } from './inspector'
-import { ensureLoggedIn } from './login'
 import { useProxy } from './proxy'
 import { getPreviewToken } from './worker'
 
 export async function develop(root: string, options: any) {
   const config = await readConfig(root)
-  await ensureLoggedIn(config)
 
   const hotKeys: HotKeys = {
     b: {

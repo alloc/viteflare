@@ -7,6 +7,7 @@ import kleur from 'kleur'
 import path from 'path'
 import type { Config } from 'wrangler/src/config'
 import { log } from '../log'
+import { ensureLoggedIn } from './login'
 
 export async function readConfig(root: string): Promise<Config> {
   const configPath = path.join(root, 'wrangler.toml')
@@ -29,6 +30,8 @@ export async function readConfig(root: string): Promise<Config> {
     const parsed = TOML.parse(tml)
     Object.assign(config, parsed)
   }
+
+  await ensureLoggedIn(config)
 
   Object.keys(config.env || {}).forEach(env => {
     inheritedFields.forEach(field => {

@@ -7,7 +7,6 @@ import { log } from './log'
 import { cacheDir, createBundle } from './node/bundle'
 import { ConfigError, readConfig } from './node/config'
 import { develop } from './node/dev'
-import { ensureLoggedIn } from './node/login'
 
 export async function main(argv: string[]) {
   const app = cac('viteflare')
@@ -43,7 +42,6 @@ export async function main(argv: string[]) {
     .option('--jsx-fragment', 'The function called for each JSX fragment')
     .action(async (root = process.cwd(), options) => {
       const config = await readConfig(root)
-      await ensureLoggedIn(config)
       if (!config.name && !options.name) {
         throw ConfigError('name')
       }

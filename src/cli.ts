@@ -33,13 +33,19 @@ export async function main(argv: string[]) {
   app
     .command('publish [root]', 'Publish your worker to the orange cloud')
     .option('-D, --dev', 'Publish to workers.dev')
-    .option('-E, --env', 'Use an environment from wrangler.toml')
-    .option('--name', 'Publish under another name')
+    .option('-E, --env <string>', 'Use an environment from wrangler.toml')
+    .option('--name <string>', 'Publish under another name')
     .option('--minify', 'Minify the worker bundle', {
       default: true,
     })
-    .option('--jsx-factory', 'The function called for each JSX element')
-    .option('--jsx-fragment', 'The function called for each JSX fragment')
+    .option(
+      '--jsx-factory <string>',
+      'The function called for each JSX element'
+    )
+    .option(
+      '--jsx-fragment <string>',
+      'The function called for each JSX fragment'
+    )
     .action(async (root = process.cwd(), options) => {
       const config = await readConfig(root)
       if (!config.name && !options.name) {

@@ -8,6 +8,7 @@ importers:
       '@alloc/prettier-config': ^1.0.0
       '@cloudflare/pages-functions-compiler': 0.3.5
       '@cloudflare/workers-types': ^3.2.0
+      '@cush/exec': ^1.7.1
       '@iarna/toml': ^2.2.5
       '@miniflare/core': 2.0.0-rc.2
       '@peculiar/webcrypto': ^1.2.3
@@ -72,6 +73,7 @@ importers:
     devDependencies:
       '@alloc/fast-rimraf': 1.0.8
       '@alloc/prettier-config': 1.0.0
+      '@cush/exec': 1.7.1
       '@iarna/toml': 2.2.5
       '@miniflare/core': 2.0.0-rc.2
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.61.1
@@ -148,6 +150,13 @@ packages:
   /@cloudflare/workers-types/3.2.0:
     resolution: {integrity: sha512-y0+f7QeB5/fMMdU0wSwvBB18yE9kAD2s7Wben8a4uI4f/EJyE+eJrai5QO52Pq8EmWP0vRpKqZh0qU857WhY2A==}
     dev: false
+
+  /@cush/exec/1.7.1:
+    resolution: {integrity: sha512-VhUZ39FqmWhXqMiKKsV1XzcNt0jTnc/vYYCn1TYHttrW1QGYWweD+f7MlgPABfLsAQDhYLVTvOjPdfY+1o0nsA==}
+    dependencies:
+      shell-quote: 1.7.3
+      type-error: 1.0.3
+    dev: true
 
   /@iarna/toml/2.2.5:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
@@ -2085,7 +2094,6 @@ packages:
 
   /shell-quote/1.7.3:
     resolution: {integrity: sha512-Vpfqwm4EnqGdlsBFNmHhxhElJYrdfcxPThu+ryKS5J8L/fhAwLazFZtq+S+TWZ9ANj2piSQLGj6NQg+lKPmxrw==}
-    dev: false
 
   /signal-exit/3.0.6:
     resolution: {integrity: sha512-sDl4qMFpijcGw22U5w63KmD3cZJfBuFlVNbVMKje2keoKML7X2UzWbc4XrmEbDwg0NXJc3yv4/ox7b+JWb57kQ==}
@@ -2228,6 +2236,10 @@ packages:
   /tslib/2.3.1:
     resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
     dev: false
+
+  /type-error/1.0.3:
+    resolution: {integrity: sha512-hlNA4NwwjtL9clb8nv+x/5C45uzxND+N+h+/y3z2dYdubGSmdtNtJjHVH4E68ZHR98Bkav4ACf1lmTZepc/4sg==}
+    dev: true
 
   /type-fest/0.12.0:
     resolution: {integrity: sha512-53RyidyjvkGpnWPMF9bQgFtWp+Sl8O2Rp13VavmJgfAP9WWG6q6TkrKU8iyJdnwnfgHI6k2hTlgqH4aSdjoTbg==}

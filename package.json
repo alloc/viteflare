@@ -38,6 +38,7 @@
   "devDependencies": {
     "@alloc/fast-rimraf": "^1.0.8",
     "@alloc/prettier-config": "^1.0.0",
+    "@cush/exec": "^1.7.1",
     "@iarna/toml": "^2.2.5",
     "@miniflare/core": "2.0.0-rc.2",
     "@rollup/plugin-commonjs": "^21.0.1",

@@ -3,6 +3,8 @@ import json from '@rollup/plugin-json'
 import resolve from '@rollup/plugin-node-resolve'
 import Module from 'module'
 import esbuild from 'rollup-plugin-esbuild'
+import exec from '@cush/exec'
+import fs from 'fs-extra'
 
 const name = require('./package.json').main.replace(/\.js$/, '')
 
@@ -41,6 +43,7 @@ export default [
       resolve({
         extensions: ['.js', '.ts', '.tsx'],
       }),
+      updateWranglerCommit(),
     ],
     output: {
       dir: 'dist',
@@ -96,6 +99,25 @@ function validateDependencies() {
           }
         }
       }
+    },
+  }
+}
+
+function updateWranglerCommit() {
+  const wranglerDir = 'vendor/wrangler2'
+  const indoConfigPath = '.indo.json'
+
+  return {
+    writeBundle() {
+      const indoConfig = fs.readJsonSync(indoConfigPath)
+      indoConfig.repos[wranglerDir].head = exec
+        .sync('git rev-parse head', { cwd: wranglerDir })
+        .slice(0, 12)
+
+      fs.writeFileSync(
+        indoConfigPath,
+        JSON.stringify(indoConfig, null, 2) + '\n'
+      )
     },
   }
 }

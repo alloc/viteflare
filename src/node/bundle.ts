@@ -11,6 +11,8 @@ import { log } from '../log'
 export const cacheDir = 'node_modules/.viteflare'
 
 export interface Bundle {
+  code: Promise<string>
+  server: ViteDevServer
   on(event: 'bundle', cb: (bundle: string) => void): void
   close(): void
 }
@@ -67,7 +69,7 @@ export async function createBundle(
 
   const emitter = new EventEmitter()
 
-  async function build() {
+  async function build(prevBuild: Promise<string>) {
     const main = server.config.build.ssr as string
     const mainUrl = '/' + path.relative(server.config.root, main)
 
@@ -83,7 +85,7 @@ export async function createBundle(
         plugins: [moduleLoader],
       })
     } catch (e) {
-      return
+      return prevBuild
     }
 
     for (const warning of built.warnings) {
@@ -115,22 +117,25 @@ export async function createBundle(
     )
 
     emitter.emit('bundle', code)
+    return code
   }
 
-  let lastBuild: Promise<void> | undefined
+  let lastBuild = Promise.resolve('')
   let isBuildQueued = false
+  let isBuildInProgress = false
 
   const buildSoon = debounce(async () => {
     if (isBuildQueued) return
-    if (lastBuild) {
+    if (isBuildInProgress) {
       isBuildQueued = true
       await lastBuild.catch(() => {})
       isBuildQueued = false
     }
+    isBuildInProgress = true
     try {
-      await (lastBuild = build())
+      await (lastBuild = build(lastBuild))
     } finally {
-      lastBuild = undefined
+      isBuildInProgress = false
     }
   }, 50)
 
@@ -142,6 +147,10 @@ export async function createBundle(
   })
 
   return {
+    get code() {
+      return lastBuild
+    },
+    server,
     on: emitter.on.bind(emitter),
     close: server.close.bind(server),
   }

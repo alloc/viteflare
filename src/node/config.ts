@@ -30,39 +30,20 @@ export async function readConfig(root: string): Promise<Config> {
     Object.assign(config, parsed)
   }
 
-  const inheritedFields = [
-    'name',
-    'account_id',
-    'workers_dev',
-    'compatibility_date',
-    'compatibility_flags',
-    'zone_id',
-    'routes',
-    'route',
-    'jsx_factory',
-    'jsx_fragment',
-    'polyfill_node',
-    'site',
-    'triggers',
-    'usage_model',
-  ]
-
   Object.keys(config.env || {}).forEach(env => {
     inheritedFields.forEach(field => {
       if (config[field] !== undefined && config.env[env][field] === undefined) {
         config.env[env][field] = config[field] // TODO: - shallow copy?
       }
     })
-  })
-
-  const mirroredFields = ['vars', 'kv_namespaces', 'durable_objects']
-  Object.keys(config.env || {}).forEach(env => {
     mirroredFields.forEach(field => {
       // if it exists on top level, it should exist on env defns
       Object.keys(config[field] || {}).forEach(fieldKey => {
         if (!(fieldKey in config.env[env][field])) {
-          console.error(
-            `In your configuration, "${field}.${fieldKey}" exists at a top level, but not on "env.${env}". This is not what you probably want, since the field "${field}" is not inherited by environments. Please add "${field}.${fieldKey}" to "env.${env}".`
+          log(
+            kleur.yellow('warn'),
+            `Environment ${kleur.cyan(env)} is missing "${field}.${fieldKey}"` +
+              ` because top-level "${field}" are not inherited.`
           )
         }
       })
@@ -76,3 +57,22 @@ export async function readConfig(root: string): Promise<Config> {
 export function ConfigError(prop: keyof Config) {
   return Error(`Worker must have "${prop}" defined in wrangler.toml`)
 }
+
+const mirroredFields = ['vars', 'kv_namespaces', 'durable_objects']
+
+const inheritedFields = [
+  'name',
+  'account_id',
+  'workers_dev',
+  'compatibility_date',
+  'compatibility_flags',
+  'zone_id',
+  'routes',
+  'route',
+  'jsx_factory',
+  'jsx_fragment',
+  'polyfill_node',
+  'site',
+  'triggers',
+  'usage_model',
+]

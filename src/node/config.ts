@@ -11,29 +11,32 @@ import { ensureLoggedIn } from './login'
 
 export async function readConfig(root: string): Promise<Config> {
   const configPath = path.join(root, 'wrangler.toml')
-  const config: Record<string, any> = {}
 
-  if (root) {
-    let tml: string
-    try {
-      tml = await readFile(configPath, 'utf-8')
-    } catch (e: any) {
-      if (e.code == 'ENOENT') {
-        log(
-          `Expected %s to exist in root directory`,
-          kleur.yellow('wrangler.toml')
-        )
-        process.exit(1)
-      }
-      throw e
+  let configToml: string
+  try {
+    configToml = await readFile(configPath, 'utf-8')
+  } catch (e: any) {
+    if (e.code == 'ENOENT') {
+      log(
+        `Expected %s to exist in root directory`,
+        kleur.yellow('wrangler.toml')
+      )
+      process.exit(1)
     }
-    const parsed = TOML.parse(tml)
-    Object.assign(config, parsed)
+    throw e
   }
 
+  const config = TOML.parse(configToml) as Record<string, any>
   await ensureLoggedIn(config)
 
+  const defaultVariables = config.vars.default || {}
+  delete config.vars.default
+
   Object.keys(config.env || {}).forEach(env => {
+    config.env[env].vars = {
+      ...defaultVariables,
+      ...config.env[env].vars,
+    }
     inheritedFields.forEach(field => {
       if (config[field] !== undefined && config.env[env][field] === undefined) {
         config.env[env][field] = config[field] // TODO: - shallow copy?

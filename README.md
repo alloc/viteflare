@@ -93,6 +93,27 @@ This means you'll never have to install `wrangler@beta` when using ViteFlare.
 
 &nbsp;
 
+### Configuration
+
+ViteFlare adds convenient features to Wrangler where it sees fit, including the `wrangler.toml` configuration file. This section describes such features.
+
+#### vars.default
+
+Normally, the top-level `vars` section is **not inherited** by environments. But values within the `[vars.default]` section _will_ be inherited (ViteFlare only).
+
+```toml
+[vars]
+FOO = 123 # Not inherited by [env.production.vars]
+
+[vars.default]
+FOO = 456 # Inherited by all environments (unless overridden)
+
+[env.production.vars]
+BAR = 123
+```
+
+&nbsp;
+
 ### Environment variables
 
 The following variables are recognized by ViteFlare CLI.

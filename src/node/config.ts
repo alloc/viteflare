@@ -9,7 +9,10 @@ import type { Config } from 'wrangler/src/config'
 import { log } from '../log'
 import { ensureLoggedIn } from './login'
 
-export async function readConfig(root: string): Promise<Config> {
+export async function readConfig(
+  root: string,
+  options: { dev?: boolean; env?: string } = {}
+): Promise<Config> {
   const configPath = path.join(root, 'wrangler.toml')
 
   let configToml: string
@@ -28,6 +31,15 @@ export async function readConfig(root: string): Promise<Config> {
 
   const config = TOML.parse(configToml) as Record<string, any>
   await ensureLoggedIn(config)
+
+  if (options.env && !config.env?.[options.env]) {
+    log(`Environment ${kleur.cyan(options.env)} does not exist`)
+    process.exit(1)
+  }
+  if (options.dev) {
+    config.workers_dev = true
+    config.route = config.routes = undefined
+  }
 
   const defaultVariables = config.vars.default || {}
   delete config.vars.default

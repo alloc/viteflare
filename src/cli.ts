@@ -47,17 +47,9 @@ export async function main(argv: string[]) {
       'The function called for each JSX fragment'
     )
     .action(async (root = process.cwd(), options) => {
-      const config = await readConfig(root)
+      const config = await readConfig(root, options)
       if (!config.name && !options.name) {
         throw ConfigError('name')
-      }
-      if (options.dev) {
-        config.workers_dev = true
-        config.route = config.routes = undefined
-      }
-      if (options.env && options.env !== 'dev' && !config.env?.[options.env]) {
-        log(`Environment ${kleur.cyan(options.env)} does not exist`)
-        process.exit(1)
       }
 
       const bundle = await createBundle(root, 'production', options.minify)

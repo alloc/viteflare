@@ -15,18 +15,8 @@ const bundle = config => ({
 
 const cliExternal = [
   ...Module.builtinModules,
-  '@cloudflare/pages-functions-compiler',
-  '@peculiar/webcrypto',
-  'esbuild',
-  'ink',
-  'miniflare',
-  'node-abort-controller',
-  'react',
-  'semiver',
-  'source-map-support',
-  'terser',
+  ...Object.keys(require('./package.json').dependencies),
   'vite',
-  'web-streams-polyfill',
 ]
 
 export default [

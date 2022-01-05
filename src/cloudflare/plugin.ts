@@ -1,3 +1,5 @@
+import { spawnSync } from 'child_process'
+import fs from 'fs'
 import path from 'path'
 import { cacheDir } from '../node/bundle'
 import { Plugin } from '../plugin'
@@ -22,8 +24,17 @@ export const CloudFlarePlugin: Plugin = {
       jsxFragment: options.jsxFragment,
     })
   },
-  async runCommand(argv) {
-    const wrangler = await import('wrangler/src/index')
-    return wrangler.main(argv)
+  runCommand(argv) {
+    const wranglerDir = path.resolve(__dirname, '../../wrangler')
+    if (!fs.existsSync(path.join(wranglerDir, 'node_modules'))) {
+      // Install the wrangler CLI.
+      spawnSync('npm', ['install'], {
+        cwd: wranglerDir,
+        stdio: 'inherit',
+      })
+    }
+    spawnSync(path.join(wranglerDir, 'node_modules/.bin/wrangler'), argv, {
+      stdio: 'inherit',
+    })
   },
 }

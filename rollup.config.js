@@ -4,6 +4,7 @@ import resolve from '@rollup/plugin-node-resolve'
 import Module from 'module'
 import esbuild from 'rollup-plugin-esbuild'
 import exec from '@cush/exec'
+import path from 'path'
 import fs from 'fs-extra'
 
 const name = require('./package.json').main.replace(/\.js$/, '')
@@ -94,11 +95,20 @@ function validateDependencies() {
   }
 }
 
+/** @returns {import('rollup').Plugin} */
 function updateWranglerCommit() {
   const wranglerDir = 'vendor/wrangler2'
   const indoConfigPath = '.indo.json'
 
   return {
+    buildStart() {
+      const branch = exec.sync('git rev-parse --abbrev-ref HEAD', {
+        cwd: wranglerDir,
+      })
+      this.addWatchFile(
+        path.join(__dirname, `vendor/wrangler2/.git/refs/heads/${branch}`)
+      )
+    },
     writeBundle() {
       const indoConfig = fs.readJsonSync(indoConfigPath)
       indoConfig.repos[wranglerDir].head = exec

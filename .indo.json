@@ -6,7 +6,7 @@
     },
     "vendor/wrangler2": {
       "url": "https://github.com/aleclarson/wrangler2.git",
-      "head": "645607a7718d"
+      "head": "76fb3ba63458"
     },
     "template": {
       "url": "https://github.com/alloc/viteflare-template.git"

@@ -67,5 +67,10 @@
   "peerDependencies": {
     "vite": ">=2.7"
   },
+  "pnpm": {
+    "overrides": {
+      "web-streams-polyfill": "4.0.0-beta.1"
+    }
+  },
   "prettier": "@alloc/prettier-config"
 }
